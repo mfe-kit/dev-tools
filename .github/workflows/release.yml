@@ -118,6 +118,12 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
 
+      - name: Commit built dist folder
+        run: |
+          git add -f dist
+          git commit -m "release: add built dist for v${{ needs.version-check.outputs.current_version }}" || echo "No changes to commit"
+          git push origin HEAD:main
+
       - name: Create and push tag
         run: |
           VERSION="${{ needs.version-check.outputs.current_version }}"
