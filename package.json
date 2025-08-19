@@ -2,9 +2,11 @@
   "name": "@mfe-kit/dev-tools",
   "version": "0.0.2",
   "main": "dist/index.js",
+  "types": "dist/index.d.ts",
   "type": "module",
   "exports": {
     ".": {
+      "types": "./dist/index.d.ts",
       "import": "./dist/index.js"
     }
   },
@@ -37,6 +39,8 @@
     "vite": "^6.0.0"
   },
   "devDependencies": {
+    "typescript": "^5.8.3",
+    "typescript-eslint": "^8.37.0",
     "@eslint/js": "^9.33.0",
     "esbuild": "^0.25.8",
     "eslint": "^9.31.0",

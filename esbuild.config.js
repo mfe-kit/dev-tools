@@ -7,6 +7,7 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 const srcDir = path.resolve(__dirname, 'src');
+const typesSrc = path.join(srcDir, 'types', 'index.d.ts');
 const outDir = path.resolve(__dirname, 'dist');
 const entryFile = path.join(srcDir, 'index.js');
 const templatesSrc = path.join(srcDir, 'templates');
@@ -36,3 +37,4 @@ build({
 }).catch(() => process.exit(1));
 
 fs.cpSync(templatesSrc, templatesDest, { recursive: true });
+fs.copyFileSync(typesSrc, path.join(outDir, 'index.d.ts'));
