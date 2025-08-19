@@ -1,0 +1,74 @@
+.landing {
+  background-color: var(--main-color-bg);
+}
+
+/*Title*/
+.title-table {
+  width: 35%;
+}
+
+/*Code*/
+.code-preview {
+  line-height: 1.4;
+  padding: 1rem;
+  color: var(--code-color);
+  background-color: var(--code-color-bg);
+  border-radius: 0.5rem;
+}
+
+/*Table*/
+.landing-table {
+  width: 100%;
+  line-height: 2;
+  color: var(--text-color);
+  background-color: var(--code-color-bg);
+  text-align: left;
+  border-collapse: collapse;
+  border-radius: 0.5rem;
+}
+
+.landing-table th {
+  padding: 0.5rem 0.75rem;
+  border-bottom: 2px solid var(--border-color);
+}
+
+.landing-table td {
+  padding: 0.75rem;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.landing-table td.collapsed button img {
+  transform: rotate(-90deg);
+}
+
+.landing-table td.collapsed pre {
+  max-height: 0;
+  overflow: hidden;
+}
+
+.landing-table tbody tr:last-child td {
+  border: none;
+}
+
+.landing-table span {
+  padding: 0.5rem;
+  border-radius: 0.25rem;
+  background-color: var(--code-zone-color-bg);
+}
+
+.payload-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem;
+  border-radius: 0.25rem;
+  color: var(--text-color);
+  background-color: transparent;
+  border: none;
+  box-shadow: none;
+  cursor: pointer;
+}
+
+.payload-btn:hover {
+  background-color: var(--primary-hover-color);
+}
