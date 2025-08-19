@@ -1,0 +1,15 @@
+{% extends "layout.njk" %}
+
+{% block css %}
+    <link rel="stylesheet" href="../css/demo.css"/>
+{% endblock %}
+
+{% block content %}
+    <section class="playground-controls" id="playground-controls"></section>
+    <section class="playground-content" id="playground-content"></section>
+{% endblock %}
+
+{% block scripts %}
+    <script src="../js/demo.js" defer></script>
+    <script type="module" src="http://localhost:7000/frontend/index.ts"></script>
+{% endblock %}
