@@ -4,6 +4,9 @@ import tseslint from 'typescript-eslint';
 import globals from 'globals';
 
 export default defineConfig([
+  {
+    ignores: ['dist/**/*'],
+  },
   js.configs.recommended,
   {
     files: ['**/*.js'],
@@ -24,13 +27,6 @@ export default defineConfig([
   ...tseslint.configs.recommended,
   {
     files: ['**/*.{ts,d.ts}'],
-    languageOptions: {
-      parser: tseslint.parser,
-      parserOptions: {
-        project: 'tsconfig.json',
-        tsconfigRootDir: process.cwd(),
-      },
-    },
     rules: {
       semi: 'error',
       'prefer-const': 'error',
