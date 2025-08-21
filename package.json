@@ -1,13 +1,13 @@
 {
   "name": "@mfe-kit/dev-tools",
   "version": "0.0.3",
-  "main": "dist/index.js",
-  "types": "dist/index.d.ts",
+  "main": "dist/playground-plugin/index.js",
+  "types": "dist/types/index.d.ts",
   "type": "module",
   "exports": {
     ".": {
-      "types": "./dist/index.d.ts",
-      "import": "./dist/index.js"
+      "types": "./dist/types/index.d.ts",
+      "import": "./dist/playground-plugin/index.js"
     }
   },
   "repository": {
@@ -20,7 +20,7 @@
   "sideEffects": false,
   "scripts": {
     "prepare": "node .husky/install.mjs",
-    "build": "node esbuild.config.js",
+    "build": "rm -rf dist && node esbuild.config.js",
     "version:patch": "npm version patch --no-git-tag-version",
     "version:minor": "npm version minor --no-git-tag-version",
     "version:major": "npm version major --no-git-tag-version",

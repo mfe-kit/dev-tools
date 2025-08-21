@@ -7,15 +7,28 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 const srcDir = path.resolve(__dirname, 'src');
-const typesSrc = path.join(srcDir, 'types', 'index.d.ts');
 const outDir = path.resolve(__dirname, 'dist');
-const entryFile = path.join(srcDir, 'index.js');
-const templatesSrc = path.join(srcDir, 'templates');
-const templatesDest = path.join(outDir, 'templates');
+
+const typesSrc = path.join(srcDir, 'types');
+const typesOut = path.join(outDir, 'types');
+
+const configsSrc = path.join(srcDir, 'configs');
+const configsOut = path.join(outDir, 'configs');
+
+const playgroundSrc = path.join(srcDir, 'playground-plugin');
+const playgroundOut = path.join(outDir, 'playground-plugin');
+
+fs.cpSync(playgroundSrc, playgroundOut, { recursive: true });
+fs.cpSync(configsSrc, configsOut, { recursive: true });
+fs.cpSync(typesSrc, typesOut, { recursive: true });
 
 build({
-  entryPoints: [entryFile],
-  outfile: path.join(outDir, 'index.js'),
+  entryPoints: [
+    path.join(playgroundSrc, 'index.js'),
+    path.join(playgroundSrc, 'templates/js/demo.js'),
+    path.join(playgroundSrc, 'templates/js/landing.js'),
+  ],
+  outdir: playgroundOut,
   bundle: true,
   minify: true,
   sourcemap: true,
@@ -35,6 +48,3 @@ build({
     'path',
   ],
 }).catch(() => process.exit(1));
-
-fs.cpSync(templatesSrc, templatesDest, { recursive: true });
-fs.copyFileSync(typesSrc, path.join(outDir, 'index.d.ts'));
