@@ -1,0 +1,12 @@
+{% extends "layout.njk" %}
+
+{% block css %}
+    <link rel="stylesheet" href="../css/markdown.css"/>
+    <link rel="stylesheet" href="../css/highlight.css"/>
+{% endblock %}
+
+{% block content %}
+    <div class="markdown-body">
+        <div class="container">{{ text | safe }}</div>
+    </div>
+{% endblock %}

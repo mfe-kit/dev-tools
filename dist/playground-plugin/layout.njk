@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Playground [{{ manifest.tag }}]</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet"/>
+    <link rel="stylesheet" href="css/variables.css"/>
+    <link rel="stylesheet" href="css/layout.css"/>
+    {% block css %}{% endblock %}
+    <link rel="icon" href="favicon.png" sizes="32x32" type="image/png" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script type="module">
+        window.PLAYGROUND = { manifest: {{ manifest | dump | safe }} };
+    </script>
+</head>
+<body>
+    <header class="header">
+        <a href="/" class="mfe-name">{{ manifest.name }}</a>
+        <nav class="navigation">
+            <a href="/demo">Demo</a>
+            <a href="/documentation">Docs</a>
+            <a href="/prerender">Prerender</a>
+        </nav>
+    </header>
+    {% block content%}{% endblock %}
+    {% block scripts%}{% endblock %}
+</body>
+</html>
