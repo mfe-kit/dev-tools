@@ -1,0 +1,71 @@
+{% extends "../layout.njk" %}
+
+{% block css %}
+    <link rel="stylesheet" href="../css/highlight.css"/>
+    <link rel="stylesheet" href="../css/landing.css"/>
+{% endblock %}
+
+{% block content %}
+    <div class="landing">
+        <div class="container">
+            <section id="title-section"></section>
+            <section>
+                <h3>Demo</h3>
+                <a href="/demo">Example</a>
+            </section>
+            <section>
+                <h3>How To</h3>
+                <p>To integrate the MFE, load the frontend JavaScript bundle into an HTML page and then use the MFE's tag.</p>
+                <pre class="code-preview">
+                    <code class="language-html" id="example-container">
+                        <span class="hljs-comment">&lt;!-- Load the frontend package --&gt;</span>
+                        <span><span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">type</span>=<span class="hljs-string">"module"</span> <span class="hljs-attr">src</span>=<span class="hljs-string">"path_to_index.js"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span></span>
+                        <span>&nbsp;</span>
+                        <span class="hljs-comment">&lt;!-- Use the MFE's tag --&gt;</span>
+                    </code>
+                </pre>
+                <script src="../js/landing.js" defer></script>
+            </section>
+            <section id="attributes-section">
+                <h3>Attributes</h3>
+                <table class="landing-table">
+                    <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Type</th>
+                        <th>Values</th>
+                        <th>Description</th>
+                    </tr>
+                    </thead>
+                    <tbody id="attributes-table-container"></tbody>
+                </table>
+            </section>
+            <section id="events-section">
+                <h3>Events</h3>
+                <table class="landing-table">
+                    <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Payload</th>
+                        <th>Description</th>
+                    </tr>
+                    </thead>
+                    <tbody id="events-table-container"></tbody>
+                </table>
+            </section>
+            <section id="functions-section">
+                <h3>Functions</h3>
+                <table class="landing-table">
+                    <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Payload</th>
+                        <th>Description</th>
+                    </tr>
+                    </thead>
+                    <tbody id="functions-table-container"></tbody>
+                </table>
+            </section>
+        </div>
+    </div>
+{% endblock %}
