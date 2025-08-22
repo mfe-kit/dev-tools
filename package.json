@@ -1,6 +1,6 @@
 {
   "name": "@mfe-kit/dev-tools",
-  "version": "0.0.7",
+  "version": "0.0.8",
   "main": "dist/playground-plugin/index.js",
   "types": "dist/types/index.d.ts",
   "type": "module",
@@ -37,7 +37,7 @@
     "check": "prettier --ignore-path .gitignore --check src",
     "check:fix": "prettier --ignore-path .gitignore --write src && eslint --fix src"
   },
-  "peerDependencies": {
+  "dependencies": {
     "@hono/node-server": "^1.14.3",
     "highlight.js": "^11.11.1",
     "hono": "^4.7.10",
