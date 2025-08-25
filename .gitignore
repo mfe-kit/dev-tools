@@ -140,3 +140,6 @@ vite.config.ts.timestamp-*
 .DS_Store
 dist
 dist
+.zed
+.idea
+.zed

@@ -18,9 +18,13 @@ const configsOut = path.join(outDir, 'configs');
 const playgroundSrc = path.join(srcDir, 'playground-plugin');
 const playgroundOut = path.join(outDir, 'playground-plugin');
 
+const setupScriptsSrc = path.join(srcDir, 'setup-scripts');
+const setupScriptsOut = path.join(outDir, 'setup-scripts');
+
 fs.cpSync(playgroundSrc, playgroundOut, { recursive: true });
 fs.cpSync(configsSrc, configsOut, { recursive: true });
 fs.cpSync(typesSrc, typesOut, { recursive: true });
+fs.cpSync(setupScriptsSrc, setupScriptsOut, { recursive: true });
 
 build({
   entryPoints: [
