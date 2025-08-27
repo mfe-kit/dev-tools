@@ -166,7 +166,7 @@ async function initRepoAndInstallPackages() {
   });
 
   if (repoUrl) {
-    await infoWrapper('Initializing git repository...', '⚙️', async () => {
+    await infoWrapper('Initializing git repository...', '⚙️ ', async () => {
       await $`git init`.quiet();
       await $`git remote add origin ${repoUrl}`.quiet();
     });
