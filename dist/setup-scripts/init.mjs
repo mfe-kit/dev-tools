@@ -44,7 +44,7 @@ async function greetings() {
   const WELCOME_MESSAGE = `
   ╔══════════════════════════════════════╗
   ║                                      ║
-  ║       ${chalk.bgCyan(' Welcome to the MFE-KIT ')}       ║
+  ║       ${chalk.bgCyan.whiteBright(' Welcome to the MFE-KIT ')}       ║
   ║                                      ║
   ╚══════════════════════════════════════╝
   `;
@@ -138,7 +138,7 @@ async function scaffoldingMfe() {
   let latestTag = '';
   console.clear();
   appPath = path.join(process.cwd(), mfeName);
-  await infoWrapper('Getting latest version...', '⬇️', async () => {
+  await infoWrapper('Getting latest version...', '⬇️ ', async () => {
     const { stdout } =
       await $`git ls-remote --tags --sort="v:refname" ${TEMPLATE_REPO_URL}`;
     const tags = stdout
@@ -241,7 +241,7 @@ function success() {
   ╔═════════════════════════════════════════════════════════╗
   ║                                                         ║
   ║                                                         ║
-  ║       ${chalk.bgGreenBright(' 🎉 MFE has been successfully created 🎉 ')}         ║
+  ║       ${chalk.bgGreen.whiteBright(' 🎉 MFE has been successfully created 🎉 ')}         ║
   ║                                                         ║
   ║                                                         ║
   ╚═════════════════════════════════════════════════════════╝
