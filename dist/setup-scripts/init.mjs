@@ -251,17 +251,24 @@ function success() {
   console.log('🏁 ' + chalk.greenBright(` Created ${mfeName} at ${appPath}`));
   console.log();
   console.log(
-    chalk.magenta('Inside that directory, you can run several commands:'),
+    chalk.magentaBright('Important: use proper node version') +
+      chalk.gray('(from .nvmrc file)') +
+      chalk.magentaBright(' or run command: ') +
+      chalk.green('nvm use'),
+  );
+  console.log();
+  console.log(
+    chalk.blueBright('Inside that directory, you can run several commands:'),
   );
   console.log(
     chalk.gray(`
-        ${chalk.magentaBright('npm run dev')}
+        ${chalk.green('npm run dev')}
           Starts the development server.
 
-        ${chalk.magentaBright('npm run build')}
+        ${chalk.green('npm run build')}
           Bundles the app into static files for production.
 
-        ${chalk.magentaBright('npm run test')}
+        ${chalk.green('npm run test')}
           Starts the test runner.
     `),
   );
