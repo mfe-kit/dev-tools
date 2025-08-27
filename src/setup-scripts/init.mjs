@@ -231,7 +231,7 @@ async function initialCommit() {
     await infoWrapper(
       'Pushing to the main brach...',
       '📤',
-      async () => await $`git push -u origin main --force"`,
+      async () => await $`git push -u origin main --force`,
     );
   }
 }
