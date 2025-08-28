@@ -136,6 +136,7 @@ async function setMfeRepo() {
       );
     } else {
       repoUrl = '';
+      console.clear();
       console.log(
         chalk.redBright(
           '❌ Invalid Git URL! Please enter a valid HTTPS or SSH repository URL.\n',
