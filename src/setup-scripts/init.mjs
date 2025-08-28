@@ -31,7 +31,8 @@ process.stdin.on('data', (data) => {
 
 // Main flow
 await greetings();
-await setMfeData();
+await setMfeName();
+await setMfeRepo();
 await scaffoldingMfe();
 await initRepoAndInstallPackages();
 await configureMfe();
@@ -41,6 +42,9 @@ success();
 
 // Steps
 async function greetings() {
+  const latestVersion = await getLatestTag(
+    'https://github.com/mfe-kit/dev-tools.git',
+  );
   const WELCOME_MESSAGE = `
   ╔══════════════════════════════════════╗
   ║                                      ║
@@ -50,7 +54,11 @@ async function greetings() {
   `;
   console.clear();
   console.log(chalk.cyanBright.bold(WELCOME_MESSAGE));
-  console.log(chalk.yellow.bold('  🚀 This is the MFE installer. 🚀 '));
+  console.log(
+    chalk.yellow.magenta(
+      '  🚀 This is the MFE installer' + chalk.green(`(${latestVersion}).🚀\n`),
+    ),
+  );
   console.log(
     chalk.yellow.bold(
       '  Please follow the next steps to create your new Micro Frontend.',
@@ -64,13 +72,8 @@ async function greetings() {
   await pressAnyKey();
 }
 
-async function setMfeData() {
-  console.clear();
-  await setMfeName();
-  await setMfeRepo();
-}
-
 async function setMfeName() {
+  console.clear();
   while (!mfeName) {
     console.log(chalk.blueBright('🔤 Choose your MFE name.'));
     console.log(
@@ -89,26 +92,34 @@ async function setMfeName() {
         .map((el) => el.charAt(0).toUpperCase() + el.slice(1).toLowerCase())
         .join('');
     } else {
+      console.clear();
       console.log(
         chalk.redBright(
-          '❌ Invalid name! MFE name should be valid tag name.\n',
+          '❌ Invalid name! MFE name should be valid tag name.\n\n',
         ),
       );
+      showMfeNameSpec();
     }
   }
   console.log();
 }
 
 async function setMfeRepo() {
+  console.clear();
   while (repoUrl === '') {
     console.log(chalk.blueBright('🔗 Link MFE to your Git repository.'));
     console.log(
-      '  ' + chalk.magentaBright('Important: the repository must be empty'),
+      '  ' +
+        chalk.magentaBright(
+          'Important: the repository must be empty, and you must have write access (via your Git account or SSH keys)',
+        ),
     );
     console.log(
       '  ' +
         chalk.gray('(e.g. ') +
-        chalk.green('https://github.com/username/repo.git') +
+        chalk.green(
+          'https://github.com/username/repo.git or git@github.com:username/repo.git ',
+        ) +
         chalk.gray(', or press Enter to skip)'),
     );
 
@@ -138,18 +149,13 @@ async function scaffoldingMfe() {
   let latestTag = '';
   console.clear();
   appPath = path.join(process.cwd(), mfeName);
-  await infoWrapper('Getting latest version...', '⬇️ ', async () => {
-    const { stdout } =
-      await $`git ls-remote --tags --sort="v:refname" ${TEMPLATE_REPO_URL}`;
-    const tags = stdout
-      .trim()
-      .split('\n')
-      .map((line) => line.split('/').pop())
-      .filter((tag) => !tag.endsWith('^{}'));
-    latestTag = tags.pop();
-  });
-  console.log(`🏷️  Latest tag: ${chalk.green(latestTag)}`);
-  console.log(`📦 Creating a new MFE in ${chalk.green(appPath)}`);
+  await infoWrapper(
+    'Getting latest version...',
+    '⬇️ ',
+    async () => (latestTag = await getLatestTag(TEMPLATE_REPO_URL)),
+  );
+  console.log(`🏷️  Latest version: ${chalk.green(latestTag)}`);
+  console.log(`✨ Creating a new MFE in ${chalk.green(appPath)}`);
   await $`git clone --depth 1 --branch ${latestTag} ${TEMPLATE_REPO_URL} ${mfeName}`.quiet();
 
   console.log(`📂 Changing current work dir to ${chalk.green(mfeName)}/`);
@@ -159,8 +165,44 @@ async function scaffoldingMfe() {
   console.log();
 }
 
+function showMfeNameSpec() {
+  console.log(chalk.yellow('Key Naming Requirements for Custom Elements: \n'));
+  console.log(
+    chalk.magenta('Hyphen Inclusion: ') +
+      chalk.grey(
+        'Custom element names must contain at least one hyphen (U+002D HYPHEN-MINUS).',
+      ),
+  );
+  console.log(
+    chalk.magenta('Lowercase Start: ') +
+      chalk.grey('The name must begin with an ASCII lowercase letter (a-z).'),
+  );
+  console.log(
+    chalk.magenta('No Uppercase Letters: ') +
+      chalk.grey('The name must not contain any ASCII uppercase letters.'),
+  );
+  console.log(
+    chalk.magenta('Allowed Characters: ') +
+      chalk.grey(
+        'Valid characters include ASCII lowercase letters (a-z), digits (0-9) and hyphens (-)',
+      ),
+  );
+  console.log(
+    chalk.magenta('Disallowed Characters: ') +
+      chalk.grey(
+        'Certain characters are explicitly prohibited, including symbols like =, @, and $.',
+      ),
+  );
+  console.log(
+    chalk.magenta('Reserved Names:  ') +
+      chalk.grey(
+        'annotation-xml, color-profile, font-face, font-face-src, font-face-uri, font-face-format, font-face-name, and missing-glyph \n',
+      ),
+  );
+}
+
 async function initRepoAndInstallPackages() {
-  await infoWrapper('Installing packages...', '📤', async () => {
+  await infoWrapper('Installing packages...', '📦', async () => {
     await $`rm -rf package-lock.json`.quiet();
     await $`npm install`.quiet();
   });
@@ -209,14 +251,16 @@ async function configureMfe() {
     '📝',
     async () => await $`mv ./src/.env.example ./src/.env`,
   );
+
   await infoWrapper(
     'Running initial tests...',
     '🧪',
     async () => await $`npm run test`.quiet(),
   );
+
   await infoWrapper(
-    'Building project...',
-    '🏗️ ',
+    ' Building project...',
+    '🏗️',
     async () => await $`npm run build`.quiet(),
   );
 }
@@ -237,28 +281,22 @@ async function initialCommit() {
 }
 
 function success() {
-  const SUCCESS_MESSAGE = `
-  ╔═════════════════════════════════════════════════════════╗
-  ║                                                         ║
-  ║                                                         ║
-  ║       ${chalk.bgGreen.whiteBright(' 🎉 MFE has been successfully created 🎉 ')}         ║
-  ║                                                         ║
-  ║                                                         ║
-  ╚═════════════════════════════════════════════════════════╝
-  `;
   console.clear();
-  console.log(chalk.greenBright.bold(SUCCESS_MESSAGE));
-  console.log('🏁 ' + chalk.greenBright(` Created ${mfeName} at ${appPath}`));
-  console.log();
+  console.log(
+    `${chalk.bgGreen.whiteBright(' 🎉 MFE has been successfully created 🎉 \n')}`,
+  );
+  console.log(
+    ' 🏁' +
+      ` Created ${chalk.greenBright(mfeName)} at ${chalk.greenBright(appPath)} \n`,
+  );
   console.log(
     chalk.magentaBright('Important: use proper node version') +
       chalk.gray('(from .nvmrc file)') +
       chalk.magentaBright(' or run command: ') +
       chalk.green('nvm use'),
   );
-  console.log();
   console.log(
-    chalk.blueBright('Inside that directory, you can run several commands:'),
+    chalk.blueBright(`Inside the directory, you can run several commands:`),
   );
   console.log(
     chalk.gray(`
@@ -290,8 +328,25 @@ function pressAnyKey() {
 
 async function infoWrapper(text, icon, callback) {
   process.stdout.write(`${icon} ${text}`);
-  await callback();
+  try {
+    await callback();
+  } catch (e) {
+    console.error(`🛑 Error during execution: ${text} \n`);
+    console.error(e);
+  }
   process.stdout.write(`\r${icon} ${text} ✅   \n`);
+}
+
+async function getLatestTag(repoUrl) {
+  const { stdout } =
+    await $`git ls-remote --tags --sort="v:refname" ${repoUrl}`;
+  const result = stdout
+    .trim()
+    .split('\n')
+    .map((line) => line.split('/').pop())
+    .filter((tag) => !tag.endsWith('^{}'))
+    .pop();
+  return result;
 }
 
 function updateFile(file, search, replace) {
