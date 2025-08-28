@@ -22,6 +22,14 @@ export default function playgroundServ(root) {
     noCache: true,
   });
 
+  const demoHtml = nunjucks.render('./pages/demo.njk', { manifest });
+  const prerenderHtml = nunjucks.render('./pages/prerender.njk', { manifest });
+  const landingHtml = nunjucks.render('./pages/landing.njk', { manifest });
+  const docsHtml = nunjucks.render('./pages/docs.njk', {
+    text: generateDocsText(root),
+    manifest,
+  });
+
   app.use('/css/*', serveStatic({ root: path.join(__dirname, 'templates') }));
   app.use('/js/*', serveStatic({ root: path.join(__dirname, 'templates') }));
   app.use(
@@ -33,47 +41,10 @@ export default function playgroundServ(root) {
     serveStatic({ path: path.join(__dirname, 'templates/favicon.png') }),
   );
 
-  app.get('/prerender', async (c) => {
-    const html = nunjucks.render('./pages/prerender.njk', { manifest });
-    return c.html(html);
-  });
-  app.get('/demo', (c) => {
-    const html = nunjucks.render('./pages/demo.njk', { manifest });
-    return c.html(html);
-  });
-  app.get('/documentation', (c) => {
-    const md = MarkdownIt({
-      highlight: function (str, lang) {
-        if (lang && hljs.getLanguage(lang)) {
-          try {
-            return (
-              '<pre><code class="hljs">' +
-              hljs.highlight(str, { language: lang, ignoreIllegals: true })
-                .value +
-              '</code></pre>'
-            );
-          } catch {
-            void 0;
-          }
-        }
-        return (
-          '<pre><code class="hljs">' +
-          md.utils.escapeHtml(str) +
-          '</code></pre>'
-        );
-      },
-    });
-    md.use(markdownItAnchor);
-    const mdPath = path.resolve(`${root}/openmfe/index.md`);
-    const mdRaw = fs.readFileSync(mdPath, 'utf8');
-    const text = md.render(mdRaw);
-    const html = nunjucks.render('./pages/docs.njk', { text, manifest });
-    return c.html(html);
-  });
-  app.get('/', (c) => {
-    const html = nunjucks.render('./pages/landing.njk', { manifest });
-    return c.html(html);
-  });
+  app.get('/prerender', async (c) => c.html(prerenderHtml));
+  app.get('/demo', (c) => c.html(demoHtml));
+  app.get('/documentation', (c) => c.html(docsHtml));
+  app.get('/', (c) => c.html(landingHtml));
 
   return {
     name: 'vite:playground-serv',
@@ -102,4 +73,31 @@ export default function playgroundServ(root) {
       });
     },
   };
+}
+
+function generateDocsText(root) {
+  const md = MarkdownIt({
+    highlight: function (str, lang) {
+      if (lang && hljs.getLanguage(lang)) {
+        try {
+          return (
+            '<pre><code class="hljs">' +
+            hljs.highlight(str, { language: lang, ignoreIllegals: true })
+              .value +
+            '</code></pre>'
+          );
+        } catch {
+          void 0;
+        }
+      }
+      return (
+        '<pre><code class="hljs">' + md.utils.escapeHtml(str) + '</code></pre>'
+      );
+    },
+  });
+  md.use(markdownItAnchor);
+  const mdPath = path.resolve(`${root}/openmfe/index.md`);
+  const mdRaw = fs.readFileSync(mdPath, 'utf8');
+  const text = md.render(mdRaw);
+  return text;
 }

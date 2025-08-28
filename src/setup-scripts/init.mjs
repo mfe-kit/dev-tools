@@ -151,10 +151,10 @@ async function scaffoldingMfe() {
   appPath = path.join(process.cwd(), mfeName);
   await infoWrapper(
     'Getting latest version...',
-    '⬇️ ',
+    '⬇️',
     async () => (latestTag = await getLatestTag(TEMPLATE_REPO_URL)),
   );
-  console.log(`🏷️  Latest version: ${chalk.green(latestTag)}`);
+  console.log(`🏷️ Latest version: ${chalk.green(latestTag)}`);
   console.log(`✨ Creating a new MFE in ${chalk.green(appPath)}`);
   await $`git clone --depth 1 --branch ${latestTag} ${TEMPLATE_REPO_URL} ${mfeName}`.quiet();
 
@@ -259,7 +259,7 @@ async function configureMfe() {
   );
 
   await infoWrapper(
-    ' Building project...',
+    'Building project...',
     '🏗️',
     async () => await $`npm run build`.quiet(),
   );
