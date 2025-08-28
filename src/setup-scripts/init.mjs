@@ -258,11 +258,11 @@ async function configureMfe() {
     async () => await $`npm run test`.quiet(),
   );
 
-  await infoWrapper(
-    'Building project...',
-    '🏗️',
-    async () => await $`npm run build`.quiet(),
-  );
+  await infoWrapper('Building project...', '🏗️', async () => {
+    await $`rm -rf dist`.quiet();
+    await $`npm run build:be`.quiet();
+    await $`npm run build:fe`.quiet();
+  });
 }
 
 async function initialCommit() {
