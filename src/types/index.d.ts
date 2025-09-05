@@ -1,1 +1,1 @@
-export default function playgroundServ(): void;
+export default function playgroundServe(): void;

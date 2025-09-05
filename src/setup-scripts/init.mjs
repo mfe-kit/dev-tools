@@ -253,6 +253,20 @@ async function configureMfe() {
     async () => await $`mv ./src/.env.example ./src/.env`,
   );
 
+  await infoWrapper('Updating application version...', '🔖', () => {
+    const packageJsonPath = path.resolve(process.cwd(), 'package.json');
+    const raw = fs.readFileSync(packageJsonPath, 'utf8');
+    const data = JSON.parse(raw);
+
+    data.version = '0.0.1';
+
+    fs.writeFileSync(
+      packageJsonPath,
+      JSON.stringify(data, null, 2) + '\n',
+      'utf8',
+    );
+  });
+
   await infoWrapper(
     'Running initial tests...',
     '🧪',

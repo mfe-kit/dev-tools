@@ -1,3 +1,4 @@
+import { fileURLToPath } from 'url';
 import { Hono } from 'hono';
 import { serveStatic } from '@hono/node-server/serve-static';
 import nunjucks from 'nunjucks';
@@ -7,12 +8,11 @@ import yaml from 'js-yaml';
 import MarkdownIt from 'markdown-it';
 import markdownItAnchor from 'markdown-it-anchor';
 import hljs from 'highlight.js/lib/common';
-import { fileURLToPath } from 'url';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-export default function playgroundServ(root) {
+export default function playgroundServe(root) {
   const app = new Hono();
   let manifest;
 
@@ -76,7 +76,7 @@ export default function playgroundServ(root) {
   });
 
   return {
-    name: 'vite:playground-serv',
+    name: 'vite:playground-serve',
     async buildStart() {
       const manifestPath = path.resolve(process.cwd(), 'src/manifest.yaml');
       const content = fs.readFileSync(manifestPath, 'utf8');
