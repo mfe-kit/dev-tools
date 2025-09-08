@@ -12,7 +12,7 @@ import hljs from 'highlight.js/lib/common';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-export default function playgroundServe(root) {
+export default function playgroundServe(root, env) {
   const app = new Hono();
   let manifest;
 
@@ -34,7 +34,21 @@ export default function playgroundServe(root) {
   );
 
   app.get('/prerender', async (c) => {
-    const html = nunjucks.render('./pages/prerender.njk', { manifest });
+    let prerender = '';
+    if (env.VITE_BACKEND_URL) {
+      try {
+        const result = await fetch(`${env.VITE_BACKEND_URL}/api/prerender`);
+        prerender = await result.text();
+      } catch (e) {
+        prerender = e.message;
+      }
+    } else {
+      prerender = '<h2>No prerender URL provided!(url/api/prerender)</h2>';
+    }
+    const html = nunjucks.render('./pages/prerender.njk', {
+      manifest,
+      prerender,
+    });
     return c.html(html);
   });
   app.get('/demo', (c) => {
