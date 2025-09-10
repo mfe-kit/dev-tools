@@ -1,6 +1,6 @@
 {
   "name": "@mfe-kit/dev-tools",
-  "version": "0.3.2",
+  "version": "0.3.3",
   "main": "dist/playground-plugin/index.js",
   "types": "dist/types/index.d.ts",
   "type": "module",
