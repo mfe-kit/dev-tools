@@ -1,6 +1,6 @@
 {
   "name": "@mfe-kit/dev-tools",
-  "version": "0.3.3",
+  "version": "0.4.0",
   "main": "dist/playground-plugin/index.js",
   "types": "dist/types/index.d.ts",
   "type": "module",
@@ -26,7 +26,8 @@
       "types": "./dist/types/vite.config.d.ts",
       "import": "./dist/configs/vite/vite.config.ssr.js"
     },
-    "./tsconfig.base.json": "./dist/configs/tsconfig.base.json"
+    "./tsconfig.base.json": "./dist/configs/tsconfig.base.json",
+    "./manifest.schema.json": "./dist/configs/manifest.schema.json"
   },
   "repository": {
     "type": "git",
