@@ -10,6 +10,7 @@ function getHeadCommitHash() {
 }
 
 const COMMIT_HASH = getHeadCommitHash();
+const BUILT_AT = new Date().toISOString();
 
 export default defineConfig(() => {
   const rootConfig = 'src';
@@ -25,9 +26,6 @@ export default defineConfig(() => {
       all: true,
       exclude: ['**/*.d.ts', 'test/**', '**/node_modules/**'],
     },
-    define: {
-      __COMMIT_HASH__: JSON.stringify(COMMIT_HASH),
-    },
   };
 
   return {
@@ -35,5 +33,9 @@ export default defineConfig(() => {
     root: rootConfig,
     cacheDir: '../node_modules/.vite',
     test: testConfig,
+    define: {
+      __COMMIT_HASH__: JSON.stringify(COMMIT_HASH),
+      __BUILT_AT__: JSON.stringify(BUILT_AT),
+    },
   };
 });
