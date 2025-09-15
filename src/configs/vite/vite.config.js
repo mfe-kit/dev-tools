@@ -33,6 +33,9 @@ export default defineConfig(() => {
     root: rootConfig,
     cacheDir: '../node_modules/.vite',
     test: testConfig,
+    optimizeDeps: {
+      exclude: ['@mfe-kit/core'],
+    },
     define: {
       __COMMIT_HASH__: JSON.stringify(COMMIT_HASH),
       __BUILT_AT__: JSON.stringify(BUILT_AT),
