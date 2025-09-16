@@ -55,8 +55,10 @@ export default function playgroundServe(root, env) {
     let data = '';
     if (env.VITE_BACKEND_URL) {
       try {
+        const queries = c.req.query();
+        const queryString = new URLSearchParams(queries).toString();
         const result = await fetch(
-          `${env.VITE_BACKEND_URL}/api/ssr` + window.location.search,
+          `${env.VITE_BACKEND_URL}/api/ssr${queryString ? '?' + queryString : ''}`,
         );
         data = await result.text();
       } catch (e) {
