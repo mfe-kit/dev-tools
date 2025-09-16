@@ -55,7 +55,9 @@ export default function playgroundServe(root, env) {
     let data = '';
     if (env.VITE_BACKEND_URL) {
       try {
-        const result = await fetch(`${env.VITE_BACKEND_URL}/api/ssr`);
+        const result = await fetch(
+          `${env.VITE_BACKEND_URL}/api/ssr` + window.location.search,
+        );
         data = await result.text();
       } catch (e) {
         data = e.message;
