@@ -34,20 +34,38 @@ export default function playgroundServe(root, env) {
   );
 
   app.get('/prerender', async (c) => {
-    let prerender = '';
+    let data = '';
     if (env.VITE_BACKEND_URL) {
       try {
         const result = await fetch(`${env.VITE_BACKEND_URL}/api/prerender`);
-        prerender = await result.text();
+        data = await result.text();
       } catch (e) {
-        prerender = e.message;
+        data = e.message;
       }
     } else {
-      prerender = '<h2>No prerender URL provided!(url/api/prerender)</h2>';
+      data = '<h2>No prerender URL provided!(url/api/prerender)</h2>';
     }
-    const html = nunjucks.render('./pages/prerender.njk', {
+    const html = nunjucks.render('./pages/ssr.njk', {
       manifest,
-      prerender,
+      data,
+    });
+    return c.html(html);
+  });
+  app.get('/ssr', async (c) => {
+    let data = '';
+    if (env.VITE_BACKEND_URL) {
+      try {
+        const result = await fetch(`${env.VITE_BACKEND_URL}/api/ssr`);
+        data = await result.text();
+      } catch (e) {
+        data = e.message;
+      }
+    } else {
+      data = '<h2>No prerender SSR provided!(url/api/ssr)</h2>';
+    }
+    const html = nunjucks.render('./pages/ssr.njk', {
+      manifest,
+      data,
     });
     return c.html(html);
   });
