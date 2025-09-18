@@ -228,7 +228,7 @@ async function configureMfe() {
     const tagReplace = [
       './src/frontend/index.ts',
       './src/frontend/styles/styles.scss',
-      './test/__snapshots__/index.spec.ts.snap',
+      './test/frontend/__snapshots__/index.spec.ts.snap',
       './src/manifest.yaml',
       './src/.env.example',
       './src/.env.production',
@@ -240,7 +240,7 @@ async function configureMfe() {
   await infoWrapper('Replacing class names ...', '🔧', async () => {
     const nameReplace = [
       './src/frontend/index.ts',
-      './test/index.spec.ts',
+      './test/frontend/index.spec.ts',
       './src/manifest.yaml',
     ];
     nameReplace.forEach((file) =>
