@@ -227,8 +227,12 @@ async function configureMfe() {
   await infoWrapper('Replacing tag-names names...', '🔧', async () => {
     const tagReplace = [
       './src/frontend/index.ts',
+      './src/frontend/snippets/spinner.ts',
+      './src/frontend/snippets/cat-image.ts',
       './src/frontend/styles/styles.scss',
       './test/frontend/__snapshots__/index.spec.ts.snap',
+      './test/frontend/snippets/__snapshots__/spinner.spec.ts.snap',
+      './test/frontend/snippets/__snapshots__/cat-image.spec.ts.snap',
       './src/manifest.yaml',
       './src/.env.example',
       './src/.env.production',
