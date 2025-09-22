@@ -12,7 +12,12 @@ export default defineConfig(() => {
       reporter: ['text', 'lcov'],
       reportsDirectory: '../coverage',
       all: true,
-      exclude: ['**/*.d.ts', 'test/**', '**/node_modules/**'],
+      exclude: [
+        '**/*.d.ts',
+        'test/**',
+        '**/node_modules/**',
+        'src/frontend/playground.custom.js',
+      ],
     },
   };
 
