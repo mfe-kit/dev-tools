@@ -16,7 +16,7 @@ export default defineConfig(() => {
         '**/*.d.ts',
         'test/**',
         '**/node_modules/**',
-        'src/frontend/playground.custom.js',
+        '**/playground.custom.js',
       ],
     },
   };
