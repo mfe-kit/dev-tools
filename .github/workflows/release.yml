@@ -13,7 +13,7 @@ jobs:
     name: Dummy PR Check
     steps:
       - name: Checkout code
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
 
       - name: Fake action
         run: echo "This is a dummy PR check. Always passes!"
