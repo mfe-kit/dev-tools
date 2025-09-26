@@ -4,8 +4,9 @@
   "minimumReleaseAge": "5 days",
   "packageRules": [
     {
-      "matchUpdateTypes": ["minor", "patch", "lockFileMaintenance"]
+      "matchUpdateTypes": ["minor", "patch"],
+      "automerge": true,
+      "automergeType": "pr"
     }
-  ],
-  "automerge": true
+  ]
 }
