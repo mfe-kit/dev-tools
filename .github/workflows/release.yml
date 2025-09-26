@@ -3,9 +3,23 @@ name: Build & Release
 on:
   push:
     branches: [main]
+  pull_request:
+    branches: [main]
 
 jobs:
+  dummy-pr-check:
+    if: github.event_name == 'pull_request'
+    runs-on: ubuntu-latest
+    name: Dummy PR Check
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Fake action
+        run: echo "This is a dummy PR check. Always passes!"
+
   release:
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
     uses: mfe-kit/ci-templates/.github/workflows/release.yml@main
     with:
       repo_name: mfe-kit-dev-tools
