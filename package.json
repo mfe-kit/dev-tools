@@ -48,9 +48,9 @@
     "check:fix": "prettier --ignore-path .gitignore --write src && eslint --fix src"
   },
   "dependencies": {
-    "@eslint/js": "^9.33.0",
+    "@eslint/js": "^10.0.0",
     "@hono/node-server": "^1.14.3",
-    "eslint": "^9.31.0",
+    "eslint": "^10.0.0",
     "highlight.js": "^11.11.1",
     "hono": "^4.7.10",
     "js-yaml": "^4.1.0",
